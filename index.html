@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>💱</text></svg>">
+<link rel="alternate icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABjElEQVR4nO2Wv0oDQRDGv01EUPAPiFoIgo+gYGMhPoGFjY2FhY2FhY+gYGNhYWFhYWHhI1jY2FhYWFhYWFhYWFhY+AgWNjYWFhYWFhb+wMJysDk2l7u9XC6XH0wxy+7Ofju7M7srgH8sAZgGsAngDMAjgFcAHwBeADwBuANwCWAHwASAAQDdAHoAdALoANAOoA1AK4AWAM0AmgA0AmgA4AXQA8ANoA1AK4AWAM0AmgA0AmgA4AXQA8ANoA1AK4AWAM0AmgA0AmgA4AXQA8ANoA1AK4AWAM0AmgA0AmgA4AXQA8ANoA1AK4AWAM0AmgA0AmgA4AXQA8ANoA1AK4AWAM0AmgA0AmgA4AXQA8ANoA1AK4AWAM0AmgA0AmgA4AXQA8ANoA1AK4AWAM0AmgA0AmgA4AXQA8ANoA1AK4AWAM0AmgA0AmgA4AXQA8ANoA1AK4AWAM0AmgA0AmgA4AXQA8ANoA1AK4AWAM0AmgA0AvgC4PwBfAF4B/AO4BPAB4BXAO8A3gG8A/gA8AngHcA7gA==">
+<body>
+    <div class="container">
+        <div class="content">
+            <!-- Header -->
+            <div class="header">
+                <div class="icon-wrapper">
+                    <svg class="dollar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <h1>Currency Converter</h1>
+                <p class="subtitle">Конвертер валют в реальном времени</p>
+            </div>
+
+            <!-- Main Card -->
+            <div class="card">
+                <!-- Amount Input -->
+                <div class="input-group">
+                    <label class="label">Сумма для конвертации</label>
+                    <input 
+                        type="number" 
+                        id="amount" 
+                        placeholder="Введите сумму..." 
+                        min="0" 
+                        step="0.01" 
+                        value="100"
+                        class="amount-input"
+                    >
+                </div>
+
+                <!-- Currency Selection -->
+                <div class="currency-grid">
+                    <!-- From Currency -->
+                    <div class="currency-select-wrapper">
+                        <label class="label">Из валюты</label>
+                        <div class="select-container">
+                            <span class="flag-icon" id="fromFlag">🇺🇸</span>
+                            <select id="fromCurrency" class="currency-select">
+                                <!-- Options will be added by JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Swap Button -->
+                    <div class="swap-container">
+                        <button id="swapBtn" class="swap-btn" title="Поменять валюты местами">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 16l-4-4m0 0l4-4m-4 4h18M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- To Currency -->
+                    <div class="currency-select-wrapper">
+                        <label class="label">В валюту</label>
+                        <div class="select-container">
+                            <span class="flag-icon" id="toFlag">🇰🇬</span>
+                            <select id="toCurrency" class="currency-select">
+                                <!-- Options will be added by JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Convert Button -->
+                <button id="convertBtn" class="convert-btn">
+                    Конвертировать
+                </button>
+
+                <!-- Error Message -->
+                <div id="errorMessage" class="error-message hidden"></div>
+
+                <!-- Result -->
+                <div id="resultContainer" class="result-container hidden">
+                    <div class="result-content">
+                        <p class="result-label">Результат конвертации</p>
+                        
+                        <!-- From Amount -->
+                        <div class="result-row">
+                            <span class="result-flag" id="resultFromFlag">🇺🇸</span>
+                            <p class="result-amount" id="resultFromAmount">100.00 USD</p>
+                        </div>
+                        
+                        <!-- Arrow -->
+                        <div class="arrow">↓</div>
+                        
+                        <!-- To Amount -->
+                        <div class="result-row">
+                            <span class="result-flag-large" id="resultToFlag">🇰🇬</span>
+                            <p class="result-amount-large" id="resultToAmount">0.00 KGS</p>
+                        </div>
+                        
+                        <!-- Exchange Rate -->
+                        <div id="rateContainer" class="rate-container hidden">
+                            <p class="rate-label">Обменный курс</p>
+                            <p class="rate-value" id="rateValue">1 USD = 0.0000 KGS</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="info-box">
+                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                    <div>
+                        <p class="info-text">
+                            <strong>Совет:</strong> Курсы валют обновляются автоматически при выборе валюты. 
+                            Данные предоставляются в реальном времени.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <p>Powered by ExchangeRate-API</p>
+                <p class="footer-small">Курсы валют обновляются ежедневно</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
